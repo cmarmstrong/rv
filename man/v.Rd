@@ -4,15 +4,15 @@
 \alias{v}
 \title{Select administrative boundary vector given a place code}
 \usage{
-v(country = NULL, fips = NULL, hasc = NULL, cb = TRUE,
-  resolution = "20m", ...)
+v(country = NULL, hasc = NULL, fips = NULL, cb = TRUE,
+  resolution = "20m", buffer = 0, returnclass = "sp", ...)
 }
 \arguments{
 \item{country}{A country name identified in naturalearth country names}
 
-\item{fips}{A FIPS code}
-
 \item{hasc}{A HASC}
+
+\item{fips}{A FIPS code}
 
 \item{cb}{Logical.  Applies only to FIPS codes.  If true will return a
 generalized resolution cartographic boundary vector, otherwise returns a
@@ -21,12 +21,13 @@ higher resolution vector.  Default TRUE.}
 \item{resolution}{The resolution if cb is TRUE.  Applies only to FIPS.
 Options are 500k, 5m, and 20m for 1:500k, 1:5 million, and 1:20 million.}
 
-\item{...}{Additional arguments passed to
-\code{\link[rnaturalearth]{ne_states}},
-\code{\link[rnaturalearth]{ne_countries}}, or
-\code{\link[tigris]{counties}}.  Use `returnclass' (country and hasc) or
-`class' (fips) to set the class of the returned geometry.  Both arguments
-accept a value of either `sf' or `sp'.}
+\item{buffer}{Integer.  If greater than zero will buffer the vector data to
+the value of this argument.  Will not work with `returnclass' set to 'sf'.}
+
+\item{returnclass}{set the class of the returned geometry.  Accepts a value
+of either `sf' or `sp'.}
+
+\item{...}{Additional arguments, unused.}
 }
 \value{
 A vector for the administrative boundary identified by the location

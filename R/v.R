@@ -23,6 +23,9 @@
 #' @param ... Additional arguments, unused.
 #' @return A vector for the administrative boundary identified by the location
 #'   code
+#' @seealso \code{\link[rnaturalearth]{ne_countries}}
+#'   \code{\link[rnaturalearth]{ne_states}} \code{\link[tigris]{counties}}
+#'   \code{\link[countrycode]{countrycode}}
 #' @export
 v <- function(country=NULL, hasc=NULL, fips=NULL, cb=TRUE, resolution='20m', buffer=0,
               returnclass='sp', ...) {

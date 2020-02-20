@@ -1,10 +1,10 @@
-Package: rv
-Title: Administrative boundary data
+Package: id2shp
+Title: Retrieve vector data from ID strings
 Version: 0.0.0.9000
 Authors@R: person("Chandler", "Armstrong", email = "omni.armstrong@gmail.com", role = c("aut", "cre"))
 Description: Downloads administrative boundary data from naturalearth or tigris.
-  Accepts a location code and returns a vector for the administrative boundary
-  of that place.
+  Accepts a location code and returns vector data for the administrative
+  boundary of that place.
 Depends: R (>= 3.4.0)
 Imports: countrycode,
   raster,
@@ -14,4 +14,4 @@ Imports: countrycode,
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.0
+RoxygenNote: 7.0.2

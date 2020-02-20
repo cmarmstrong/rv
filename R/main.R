@@ -6,8 +6,8 @@
 #' subdivision codes (HASC).  If no names or codes are given, returns an
 #' \code{\link[raster]{extent}} for the globe in longitude/latitude.
 #'
-#' Vector data is downloaded from rnaturalearth (place names and HASC) or tigris
-#' (FIPS codes)
+#' Vector data is downloaded using rnaturalearth (place names and HASC) or
+#' tigris (FIPS codes)
 #'
 #' @param country A country name identified in naturalearth country names
 #' @param hasc A HASC
@@ -31,7 +31,7 @@
 #'   \code{\link[rnaturalearth]{ne_states}} \code{\link[tigris]{counties}}
 #'   \code{\link[countrycode]{countrycode}}
 #' @export
-v <- function(country=NULL, hasc=NULL, fips=NULL, cb=TRUE, resolution='20m', buffer=0,
+id2shp <- function(country=NULL, hasc=NULL, fips=NULL, cb=TRUE, resolution='20m', buffer=0,
               returnclass='sp', scale='large', ...) {
     ## if(sum(!sapply(formals()[1:3], is.null))>1) stop('Supply only one of country, fips, or hasc')
     if(!is.null(fips)) {
@@ -42,17 +42,19 @@ v <- function(country=NULL, hasc=NULL, fips=NULL, cb=TRUE, resolution='20m', buf
         state <- substr(fips, 1, 2)
         county <- substr(fips, 3, 5)
         counties <- tigris::counties(state=unique(state), cb, resolution, class=returnclass)
-        v <- counties[counties $GEOID %in% fips, ]
+        shp <- counties[counties $GEOID %in% fips, ]
     } else if(!is.null(hasc)) {
         if(!is.null(country)) warning('HASC present, ignoring country')
         lHasc <- strsplit(hasc, '\\.')
         country <- sapply(lHasc, '[', 1)
         country <- countrycode::countrycode(country, 'iso2c', 'country.name')
-        states <- rnaturalearth::ne_states(country=country, returnclass=returnclass, scale=scale)
-        v <- states[states $code_hasc %in% hasc, ]
+        states <- rnaturalearth::ne_states(country=country, returnclass=returnclass,
+                                           scale=scale)
+        shp <- states[states $code_hasc %in% hasc, ]
     } else if(!is.null(country)) {
-        v <- rnaturalearth::ne_countries(country=country, returnclass=returnclass, scale=scale)
-    } else v <- raster::extent(c(-180, 180, -90, 90))
-    if(buffer) v <- rgeos::gBuffer(v, width=buffer)
-    v
+        shp <- rnaturalearth::ne_countries(country=country, returnclass=returnclass,
+                                           scale=scale)
+    } else shp <- raster::extent(c(-180, 180, -90, 90))
+    if(buffer) shp <- rgeos::gBuffer(v, width=buffer)
+    shp
 }
